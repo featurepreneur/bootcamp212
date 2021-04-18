@@ -15,12 +15,10 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
-def startpy():
-    # print('Hey there')
+def convert_currency(amount, from_currency = 'CAD', to_currency = 'INR'):
 
     # Collect and parse first page
-    page = requests.get('https://www.xe.com/currencyconverter/convert/?Amount=100&From=CAD&To=INR')
+    page = requests.get(f'https://www.xe.com/currencyconverter/convert/?Amount={amount}&From={from_currency}&To={to_currency}')
     # print(page.text)
 
     soup = BeautifulSoup(page.text, 'html.parser')
@@ -29,7 +27,18 @@ def startpy():
     amount_list = soup.find(class_='iGrAod')
 
     # print(amount_list.text)
-    print(amount_list.text)
+    # print(amount_list.text)
+
+    return amount_list.text
+
+def startpy():
+    # print('Hey there')
+
+    result = convert_currency(50)
+    print(result)
+
+    result = convert_currency(100, 'INR', 'USD')
+    print(result)
 
 
 if __name__ == '__main__':
